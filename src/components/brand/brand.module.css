@@ -25,6 +25,10 @@
   color: white;
 }
 
+.inverse > span {
+  color: inherit;
+}
+
 @media (max-width: 600px) {
   .brand {
     font-size: 17px;
