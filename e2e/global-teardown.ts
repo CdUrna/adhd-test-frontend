@@ -5,9 +5,14 @@ import path from "node:path";
 export default function globalTeardown() {
   const frontendRoot = process.cwd();
   const backendRoot = path.resolve(frontendRoot, "../adhd-test-backend");
-  const pidFile = path.resolve(frontendRoot, ".e2e-api.pid");
+  const pidFiles = [
+    path.resolve(frontendRoot, ".e2e-api.pid"),
+    path.resolve(frontendRoot, ".e2e-frontend.pid"),
+  ];
 
-  if (fs.existsSync(pidFile)) {
+  for (const pidFile of pidFiles) {
+    if (!fs.existsSync(pidFile)) continue;
+
     const pid = Number(fs.readFileSync(pidFile, "utf8"));
     if (Number.isInteger(pid) && pid > 0) {
       try {

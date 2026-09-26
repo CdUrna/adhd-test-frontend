@@ -15,9 +15,9 @@ complete browser funnel in Microsoft Edge. The test schema is cleared afterward;
 development data is not modified. Audit screenshots are written to
 `artifacts/funnel-audit`.
 
-The browser runner owns port `4000` for its isolated API process, records that
-process ID, and stops it during teardown. Stop any manually running backend
-before starting `pnpm quality`; the frontend preview on port `3000` may remain.
+The browser runner owns ports `3000` and `4000`, records both process IDs, and
+stops both applications during teardown. Stop manually running frontend and
+backend processes before starting `pnpm quality`.
 
 The app is available at `http://localhost:3000` and expects the API at the URL
 configured through `NEXT_PUBLIC_API_URL`.
