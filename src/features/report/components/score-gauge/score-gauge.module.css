@@ -1,0 +1,55 @@
+.gauge {
+  position: relative;
+  width: 436px;
+  height: 220px;
+  flex: 0 0 auto;
+}
+
+.chart {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  width: 241px;
+  height: 194px;
+  transform: translateX(-50%);
+}
+
+.needle {
+  transform-box: view-box;
+  transform-origin: 120.34px 113.97px;
+  transition: transform 300ms ease;
+}
+
+.gauge strong {
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  color: #304f6d;
+  font: 500 24px/58px var(--font-heading);
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .needle {
+    transition: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .gauge {
+    width: 100%;
+    height: 178px;
+  }
+
+  .chart {
+    width: 194px;
+    height: 156px;
+  }
+
+  .gauge strong {
+    top: 124px;
+    font: 500 19px/47px var(--font-heading);
+  }
+}

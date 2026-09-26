@@ -1,0 +1,50 @@
+.brand {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  color: #04182c;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33px;
+  white-space: nowrap;
+}
+
+.brand > span {
+  color: var(--accent);
+}
+
+.mark {
+  width: 37px;
+  height: 33px;
+  margin-right: 7px;
+  object-fit: contain;
+}
+
+.inverse {
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .brand {
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .mark {
+    width: 27px;
+    height: 24px;
+    margin-right: 4px;
+  }
+
+  .inverse {
+    font-size: 21px;
+    line-height: 29px;
+  }
+
+  .inverse .mark {
+    width: 33px;
+    height: 29px;
+    margin-right: 5px;
+  }
+}

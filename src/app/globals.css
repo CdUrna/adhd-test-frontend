@@ -1,0 +1,81 @@
+:root {
+  --background: #f4f7fa;
+  --surface: #ffffff;
+  --text: #1c2d3f;
+  --muted: #485664;
+  --primary: #13869a;
+  --primary-hover: #095f65;
+  --accent: #0870c7;
+  --border: #e8edf2;
+  --option: #eef3f7;
+  --selected: #e7f5fb;
+
+  --font-body: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-heading: "Geologica", "Segoe UI", Arial, sans-serif;
+
+  --type-desktop-body-large: 400 20px/28px var(--font-body);
+  --type-desktop-body-large-medium: 500 20px/28px var(--font-body);
+  --type-desktop-heading-3: 500 32px/36px var(--font-heading);
+  --type-desktop-heading-4: 500 24px/26px var(--font-heading);
+  --type-desktop-body-16: 400 16px/22px var(--font-body);
+  --type-desktop-heading-2: 600 48px/58px var(--font-heading);
+  --type-desktop-subtitle: 500 32px/1.2 var(--font-heading);
+  --type-desktop-subtitle-small: 300 20px/1.2 var(--font-heading);
+  --type-desktop-body-xsmall: 400 12px/16px var(--font-body);
+
+  --type-mobile-body-medium: 500 16px/1.4 var(--font-body);
+  --type-mobile-heading-2: 700 32px/1.1 var(--font-heading);
+  --type-body-big-medium: 700 32px/1.1 var(--font-heading);
+  --type-heading-2: 700 48px/1.2 var(--font-heading);
+  --type-mobile-heading-3: 500 20px/1.2 var(--font-heading);
+  --type-mobile-body-16: 400 16px/22px var(--font-body);
+  --type-mobile-heading-4: 500 18px/1.2 var(--font-heading);
+  --type-mobile-heading-2-compact: 600 24px/1.2 var(--font-heading);
+  --type-mobile-heading-3-semibold: 600 20px/1.2 var(--font-heading);
+  --type-mobile-subtitle-small: 300 16px/1.2 var(--font-heading);
+  --type-mobile-body-16-medium: 500 16px/22px var(--font-body);
+  --type-mobile-body-small-medium: 500 14px/20px var(--font-body);
+  --type-mobile-body-small-regular: 400 14px/20px var(--font-body);
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font: var(--type-desktop-body-16);
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible {
+  outline: 3px solid rgb(8 112 199 / 30%);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}

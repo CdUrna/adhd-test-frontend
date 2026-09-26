@@ -1,0 +1,227 @@
+.card.card {
+  width: min(100%, 778px);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.form {
+  width: 440px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.intro {
+  color: #04182c;
+  text-align: center;
+}
+
+.intro h1,
+.intro p {
+  margin: 0;
+}
+
+.intro h1 {
+  font: var(--type-desktop-heading-2);
+}
+
+.intro p {
+  margin-top: 4px;
+  color: var(--text);
+  font: var(--type-desktop-body-16);
+}
+
+.fields {
+  display: grid;
+  gap: 8px;
+}
+
+.fields label {
+  display: grid;
+}
+
+.fieldLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fields input {
+  width: 100%;
+  height: 56px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--border);
+  color: var(--text);
+  font: var(--type-desktop-body-16);
+}
+
+.fields input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.fields input:focus {
+  border-color: var(--primary);
+  outline: 3px solid rgb(17 106 115 / 14%);
+}
+
+.fields input[aria-invalid="true"] {
+  border-color: #c44545;
+}
+
+.primaryAction.primaryAction {
+  width: 100%;
+  min-height: 56px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background: #116a73;
+  font: var(--type-desktop-body-large-medium);
+}
+
+.primaryAction.primaryAction:hover {
+  background: var(--primary-hover);
+}
+
+.fieldError,
+.formError {
+  color: #9e2d2d;
+  font-size: 0.86rem;
+  font-weight: 400;
+}
+
+.fieldError {
+  margin-top: 4px;
+}
+
+.formError {
+  margin: 0;
+  text-align: center;
+}
+
+.modeSwitch {
+  margin-top: 22px;
+}
+
+.secondaryLink {
+  display: block;
+  margin: 12px auto 0;
+  color: var(--muted);
+}
+
+.login {
+  align-self: start;
+  width: 400px;
+  margin-top: 120px;
+}
+
+.login .form {
+  width: 400px;
+}
+
+.login .intro h1 {
+  font: 700 32px/1.2 var(--font-heading);
+}
+
+.login .intro {
+  height: 63px;
+}
+
+.login .intro p {
+  font: 400 16px/24px var(--font-body);
+}
+
+.register {
+  align-self: start;
+  margin-top: 80px;
+}
+
+@media (max-width: 600px) {
+  .card.card,
+  .form {
+    width: 100%;
+  }
+
+  .intro h1 {
+    font: var(--type-mobile-heading-2);
+  }
+
+  .intro p {
+    font: var(--type-mobile-body-16);
+  }
+
+  .fields input {
+    height: 52px;
+  }
+
+  .primaryAction.primaryAction {
+    min-height: 48px;
+    margin-top: 16px;
+    border-radius: 6px;
+    font: var(--type-mobile-body-16-medium);
+  }
+
+  .card.login {
+    align-self: stretch;
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 0;
+    height: calc(100dvh - 60px);
+    min-height: 560px;
+    margin-top: 0;
+    padding: 24px 19px 40px;
+  }
+
+  .login .form {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .login .mainContent {
+    justify-content: center;
+  }
+
+  .login .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 46px;
+  }
+
+  .login .intro h1 {
+    font: var(--type-mobile-heading-3-semibold);
+  }
+
+  .login .intro p {
+    margin-top: 0;
+    font: 400 14px/1.3 var(--font-body);
+  }
+
+  .login .primaryAction.primaryAction {
+    min-height: 52px;
+    margin-top: 0;
+  }
+
+  .register {
+    align-self: start;
+    margin-top: 32px;
+    padding: 0 19px;
+  }
+}

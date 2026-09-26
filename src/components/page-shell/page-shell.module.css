@@ -1,0 +1,18 @@
+.root {
+  min-height: 100vh;
+  padding: 32px clamp(20px, 5vw, 72px);
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .root { padding: 22px 18px; }
+}

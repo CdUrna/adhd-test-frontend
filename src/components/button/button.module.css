@@ -1,0 +1,40 @@
+.button { cursor: pointer; }
+
+.primary {
+  min-height: 52px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--primary);
+  color: white;
+}
+
+.primary:hover { background: var(--primary-hover); }
+
+.link {
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.outline {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--primary);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--primary);
+}
+
+.outline:hover { background: rgb(14 116 123 / 8%); }
+
+.ghost {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.compact {
+  min-height: 42px;
+  padding: 0 24px;
+}

@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+*.log
+*.tsbuildinfo
+test-results/
+playwright-report/
+.e2e-api.pid
+artifacts/
+design-qa.md
+AGENTS.md
+CLAUDE.md

@@ -1,0 +1,16 @@
+.root {
+  align-self: center;
+  justify-self: center;
+  width: min(100%, 660px);
+  padding: 44px;
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgb(17 38 59 / 10%);
+  text-align: center;
+}
+
+.compact { width: min(100%, 520px); }
+
+@media (max-width: 600px) {
+  .root { padding: 30px 20px; }
+}

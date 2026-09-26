@@ -1,0 +1,36 @@
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-block: 60px;
+}
+
+.faq h2 {
+  margin: 0;
+  color: #04182c;
+  font: var(--type-desktop-heading-3);
+  text-align: center;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 650px) {
+  .faq {
+    gap: 20px;
+    padding-block: 24px;
+  }
+
+  .faq h2 {
+    width: 240px;
+    margin-inline: auto;
+    font: var(--type-mobile-heading-2-compact);
+  }
+
+  .questions {
+    gap: 12px;
+  }
+}

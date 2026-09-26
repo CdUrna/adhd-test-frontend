@@ -1,0 +1,147 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-block: 40px;
+}
+
+.sectionHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionHeading h2,
+.sectionHeading p,
+.sectionBody,
+.sectionOutro {
+  margin: 0;
+}
+
+.sectionHeading h2 {
+  color: var(--text);
+  font: var(--type-desktop-heading-3);
+}
+
+.sectionHeading p {
+  color: var(--muted);
+  font: var(--type-desktop-subtitle-small);
+}
+
+.sectionBody {
+  color: var(--muted);
+  font: var(--type-desktop-body-large);
+}
+
+.sectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sectionItem {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionMarker {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+}
+
+.sectionStrengths .sectionMarker {
+  border-radius: 50%;
+  background: #e6f2f2;
+}
+
+.sectionEmotional .sectionMarker {
+  width: 8px;
+  height: 8px;
+  flex-basis: 8px;
+  border-radius: 50%;
+  background: #b4cce3;
+}
+
+.sectionText {
+  color: var(--muted);
+  font: var(--type-desktop-body-large);
+}
+
+.sectionStrengths .sectionText {
+  font: var(--type-desktop-body-large-medium);
+}
+
+.sectionOutro {
+  color: var(--text);
+  font: var(--type-desktop-body-large-medium);
+}
+
+@media (max-width: 650px) {
+  .section {
+    gap: 20px;
+    padding-block: 24px;
+  }
+
+  .sectionHeading h2 {
+    font: var(--type-mobile-heading-3-semibold);
+  }
+
+  .sectionHeading p {
+    font: var(--type-mobile-subtitle-small);
+  }
+
+  .sectionEmotional .sectionHeading {
+    gap: 8px;
+  }
+
+  .sectionEmotional.sectionWithItems {
+    min-height: 493px;
+  }
+
+  .sectionBody {
+    font: var(--type-mobile-body-small-regular);
+  }
+
+  .sectionList {
+    gap: 12px;
+  }
+
+  .sectionItem {
+    min-height: 40px;
+  }
+
+  .sectionText {
+    width: calc(100% - 40px);
+    font: var(--type-mobile-body-small-medium);
+  }
+
+  .sectionStrengths .sectionText {
+    font: var(--type-mobile-body-small-medium);
+  }
+
+  .sectionEmotional .sectionList {
+    gap: 8px;
+  }
+
+  .sectionEmotional .sectionItem {
+    gap: 8px;
+  }
+
+  .sectionEmotional .sectionText {
+    width: calc(100% - 16px);
+    font: var(--type-mobile-body-small-regular);
+  }
+
+  .sectionOutro {
+    max-width: 320px;
+    font: var(--type-mobile-body-small-medium);
+  }
+}

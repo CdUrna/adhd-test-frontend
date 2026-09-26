@@ -1,0 +1,22 @@
+.shell.shell {
+  grid-template-rows: 73px 1fr;
+  min-height: 100dvh;
+  padding: 0;
+  background: #f7f8fa;
+}
+
+.header.header {
+  height: 73px;
+  padding: 20px 70px;
+}
+
+@media (max-width: 600px) {
+  .shell.shell {
+    grid-template-rows: 60px 1fr;
+  }
+
+  .header.header {
+    height: 60px;
+    padding: 18px 8px;
+  }
+}
