@@ -15,25 +15,65 @@ The solution is split into two independent applications:
 
 The applications communicate over a versioned REST API under `/api/v1`.
 
+## Prerequisites
+
+- Node.js 24+
+- pnpm 11+
+- Docker
+- the backend cloned as the sibling directory `../adhd-test-backend`
+
 ## Local setup
 
-1. Copy `.env.example` to `.env.local`.
-2. Install dependencies with `pnpm install`.
-3. Start the development server with `pnpm dev`.
+Prepare and start the backend first:
 
-Keep the backend project in the sibling `adhd-test-backend` directory and start
-its PostgreSQL container. Run `pnpm quality` to execute ESLint, create a Next.js
-production build, prepare the isolated backend E2E database, and verify the
-complete browser funnel in Microsoft Edge. The test schema is cleared afterward;
-development data is not modified. Audit screenshots are written to
-`artifacts/funnel-audit`.
+```powershell
+cd ../adhd-test-backend
+Copy-Item .env.example .env
+pnpm install --frozen-lockfile
+docker compose up -d
+pnpm prisma:generate
+pnpm prisma:deploy
+pnpm prisma:seed
+pnpm start:dev
+```
+
+Then open a second terminal and start the frontend:
+
+```powershell
+cd ../adhd-test-frontend
+Copy-Item .env.example .env.local
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+The frontend is available at `http://localhost:3000` and expects the API at the
+URL configured through `NEXT_PUBLIC_API_URL`. The default backend URL is
+`http://localhost:4000/api/v1`.
+
+## Quality checks
+
+Install the Playwright-managed browser once:
+
+```powershell
+pnpm exec playwright install chromium
+```
+
+With the backend PostgreSQL container running, stop manually started frontend
+and backend processes and run:
+
+```powershell
+pnpm quality
+```
+
+The command executes ESLint, creates a frontend production build, generates the
+backend Prisma Client, creates a fresh backend production build, prepares the
+isolated E2E database, and verifies the complete browser funnel in Chromium. The
+test schema is cleared afterward; development data is not modified. Audit
+screenshots are written to `artifacts/funnel-audit`.
 
 The browser runner owns ports `3000` and `4000`, records both process IDs, and
-stops both applications during teardown. Stop manually running frontend and
-backend processes before starting `pnpm quality`.
-
-The app is available at `http://localhost:3000` and expects the API at the URL
-configured through `NEXT_PUBLIC_API_URL`.
+stops both applications during teardown. The sibling backend must have its
+dependencies installed, but it does not need to be built or started beforehand.
 
 ## Product rules
 

@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: "list",
   use: {
     baseURL: "http://localhost:3000",
-    channel: "msedge",
+    browserName: "chromium",
     headless: true,
     trace: "retain-on-failure",
   },

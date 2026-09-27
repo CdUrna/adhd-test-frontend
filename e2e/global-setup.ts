@@ -9,6 +9,7 @@ const testDatabaseUrl = process.env.TEST_DATABASE_URL
   ?? "postgresql://adhd:adhd@localhost:55432/adhd_test_e2e?schema=public";
 
 export default async function globalSetup() {
+  prepareBackend();
   runDatabaseAction("prepare");
   const apiServer = spawn(process.execPath, ["dist/main.js"], {
     cwd: backendRoot,
@@ -50,6 +51,26 @@ export default async function globalSetup() {
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
   throw new Error("E2E applications did not become ready in time");
+}
+
+function prepareBackend() {
+  runBackendNodeAction(
+    ["node_modules/prisma/build/index.js", "generate"],
+    "Prisma Client generation",
+  );
+  runBackendNodeAction(
+    ["node_modules/@nestjs/cli/bin/nest.js", "build"],
+    "backend build",
+  );
+}
+
+function runBackendNodeAction(args: string[], label: string) {
+  const result = spawnSync(process.execPath, args, {
+    cwd: backendRoot,
+    env: process.env,
+    stdio: "inherit",
+  });
+  if (result.status !== 0) throw new Error(`E2E ${label} failed`);
 }
 
 function runDatabaseAction(action: "prepare" | "clean") {
