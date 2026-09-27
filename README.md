@@ -4,6 +4,10 @@ Independent Next.js application for the ADHD test funnel.
 
 Backend repository: [CdUrna/adhd-test-backend](https://github.com/CdUrna/adhd-test-backend)
 
+Live application: [adhd-test-frontend.vercel.app](https://adhd-test-frontend.vercel.app)
+
+Production API: [adhd-test-backend.onrender.com/api/v1](https://adhd-test-backend.onrender.com/api/v1/health)
+
 ## Solution overview
 
 The solution is split into two independent applications:
