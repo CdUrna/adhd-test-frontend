@@ -10,4 +10,5 @@ export type StoredDraft = {
   gender?: Gender;
   quizVersionId?: string;
   answers?: Answers;
+  completionIdempotencyKey?: string;
 };

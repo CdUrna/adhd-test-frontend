@@ -12,6 +12,7 @@ import type { Gender } from "../../quiz.types";
 export function TestView({ initialQuiz: quiz }: TestViewProps) {
   const router = useRouter();
   const genderRef = useRef<Gender | null>(null);
+  const idempotencyKeyRef = useRef<string | null>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [error, setError] = useState<string | null>(null);
@@ -29,8 +30,17 @@ export function TestView({ initialQuiz: quiz }: TestViewProps) {
     genderRef.current = draft.gender;
     const restoredAnswers =
       draft.quizVersionId === quiz.id ? (draft.answers ?? {}) : {};
+    idempotencyKeyRef.current =
+      draft.quizVersionId === quiz.id
+        ? (draft.completionIdempotencyKey ?? null)
+        : null;
 
-    persistDraft(draft.gender, quiz.id, restoredAnswers);
+    persistDraft(
+      draft.gender,
+      quiz.id,
+      restoredAnswers,
+      idempotencyKeyRef.current ?? undefined,
+    );
     void Promise.resolve().then(() => {
       if (active) setAnswers(restoredAnswers);
     });
@@ -44,6 +54,7 @@ export function TestView({ initialQuiz: quiz }: TestViewProps) {
     const gender = genderRef.current;
     if (!gender || !quiz) return;
     const updatedAnswers = { ...answers, [questionId]: value };
+    idempotencyKeyRef.current = null;
     setAnswers(updatedAnswers);
     persistDraft(gender, quiz.id, updatedAnswers);
   }
@@ -60,14 +71,21 @@ export function TestView({ initialQuiz: quiz }: TestViewProps) {
     setIsCompleting(true);
     setError(null);
     try {
-      const completion = await completeAttempt({
-        quizVersionId: quiz.id,
-        gender,
-        answers: quiz.questions.map((question) => ({
-          questionId: question.id,
-          value: answers[question.id],
-        })),
-      });
+      const idempotencyKey =
+        idempotencyKeyRef.current ?? window.crypto.randomUUID();
+      idempotencyKeyRef.current = idempotencyKey;
+      persistDraft(gender, quiz.id, answers, idempotencyKey);
+      const completion = await completeAttempt(
+        {
+          quizVersionId: quiz.id,
+          gender,
+          answers: quiz.questions.map((question) => ({
+            questionId: question.id,
+            value: answers[question.id],
+          })),
+        },
+        idempotencyKey,
+      );
 
       window.localStorage.removeItem("adhd-quiz-draft");
       if (completion.nextStep === "REPORT_READY") {
@@ -159,9 +177,19 @@ function readDraft(): StoredDraft | null {
   }
 }
 
-function persistDraft(gender: Gender, quizVersionId: string, answers: Answers): void {
+function persistDraft(
+  gender: Gender,
+  quizVersionId: string,
+  answers: Answers,
+  completionIdempotencyKey?: string,
+): void {
   window.localStorage.setItem(
     "adhd-quiz-draft",
-    JSON.stringify({ gender, quizVersionId, answers }),
+    JSON.stringify({
+      gender,
+      quizVersionId,
+      answers,
+      completionIdempotencyKey,
+    }),
   );
 }

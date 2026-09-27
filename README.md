@@ -26,6 +26,7 @@ the test task.
 | Fetch the quiz in the `/test` Server Component and pass it to the interactive `TestView` | The question set is server-owned, but answering and navigation require browser state. | The first render already contains quiz data, while the client boundary stays focused on interaction. | `TestView` still needs client-side JavaScript, and SSR does not remove the need to handle API failures. |
 | Use separate routes for landing, quiz, authentication, and report | These are distinct funnel states with different access rules and layouts. | URLs are refreshable and understandable, and every step can evolve independently. | State that crosses routes must be persisted explicitly instead of remaining in one component tree. |
 | Store the quiz draft in `localStorage` | An accidental refresh should not erase answers to a public quiz. | Simple recovery without creating an anonymous server session for every visitor. | The draft is device- and browser-specific, can become stale, and must never contain trusted scoring data. |
+| Persist one UUID idempotency key with the draft while completion is pending | The backend may commit an attempt even if the browser loses the response and retries. | A retry after a network error or refresh receives the original attempt instead of creating a duplicate. Changing an answer clears the key, and a deliberate retake generates a new one. | The browser must manage the key lifecycle correctly, and the mechanism still depends on backend validation of the payload and authentication context. |
 | Store the pending anonymous attempt in `sessionStorage` | Registration and sign-in need the short-lived claim result after route navigation, but it should not survive indefinitely. | The value is scoped to the current tab session and is cleared after a successful claim. | It is readable by client-side JavaScript, so XSS protection remains important; a production system could keep this transition in a server-side session. |
 | Let the backend provide questions and answer options | Quiz versions and scoring rules must have one source of truth. | The UI can render a new published quiz without a frontend release, and the client cannot define scoring points. | The quiz depends on API availability and the frontend still needs a stable response contract. |
 | Use an HTTP-only authentication cookie | The browser should send authentication automatically without exposing the JWT to application JavaScript. | Reduces token theft through client code and supports session restoration after refresh. | Cross-site deployment requires careful `SameSite`, HTTPS, CORS, and CSRF configuration. |
@@ -110,6 +111,7 @@ dependencies installed, but it does not need to be built or started beforehand.
 - Quiz loading from `GET /quiz/current`.
 - Five-question navigation with required answers.
 - Draft gender and answers persisted in browser storage.
+- Completion idempotency key persisted until the backend confirms the attempt.
 - Anonymous attempt completion through the backend.
 - One-time claim data stored in session storage until authentication succeeds.
 - Result gate that reveals neither score nor High/Low before authentication.

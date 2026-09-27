@@ -22,12 +22,14 @@ export async function getCurrentQuiz(signal?: AbortSignal): Promise<CurrentQuiz>
 
 export async function completeAttempt(
   input: CompleteAttemptInput,
+  idempotencyKey: string,
 ): Promise<CompleteAttemptResponse> {
   const response = await fetch(`${apiUrl}/attempts/complete`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify(input),
   });
