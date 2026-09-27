@@ -15,6 +15,28 @@ The solution is split into two independent applications:
 
 The applications communicate over a versioned REST API under `/api/v1`.
 
+## Design decisions and trade-offs
+
+The implementation intentionally favors explicit boundaries and a complete,
+reviewable product flow over introducing infrastructure that is not required by
+the test task.
+
+| Decision | Why it was chosen | Advantages | Trade-offs |
+| --- | --- | --- | --- |
+| Keep frontend and backend in separate repositories | The task requires independently runnable client and server applications. | Clear ownership, independent deployment and dependency graphs, and no framework coupling through a monorepo tool. | Cross-application changes require coordinating two repositories, and the full E2E runner expects them in sibling directories. |
+| Fetch the quiz in the `/test` Server Component and pass it to the interactive `TestView` | The question set is server-owned, but answering and navigation require browser state. | The first render already contains quiz data, while the client boundary stays focused on interaction. | `TestView` still needs client-side JavaScript, and SSR does not remove the need to handle API failures. |
+| Use separate routes for landing, quiz, authentication, and report | These are distinct funnel states with different access rules and layouts. | URLs are refreshable and understandable, and every step can evolve independently. | State that crosses routes must be persisted explicitly instead of remaining in one component tree. |
+| Store the quiz draft in `localStorage` | An accidental refresh should not erase answers to a public quiz. | Simple recovery without creating an anonymous server session for every visitor. | The draft is device- and browser-specific, can become stale, and must never contain trusted scoring data. |
+| Store the pending anonymous attempt in `sessionStorage` | Registration and sign-in need the short-lived claim result after route navigation, but it should not survive indefinitely. | The value is scoped to the current tab session and is cleared after a successful claim. | It is readable by client-side JavaScript, so XSS protection remains important; a production system could keep this transition in a server-side session. |
+| Let the backend provide questions and answer options | Quiz versions and scoring rules must have one source of truth. | The UI can render a new published quiz without a frontend release, and the client cannot define scoring points. | The quiz depends on API availability and the frontend still needs a stable response contract. |
+| Use an HTTP-only authentication cookie | The browser should send authentication automatically without exposing the JWT to application JavaScript. | Reduces token theft through client code and supports session restoration after refresh. | Cross-site deployment requires careful `SameSite`, HTTPS, CORS, and CSRF configuration. |
+| Keep styles in component-scoped CSS Modules and extract repeated UI primitives | The design has reusable patterns, while feature components still need local ownership of their layout. | Avoids selector collisions, limits global CSS, and makes component changes easier to review. | Shared primitives require judgment: extracting every small variation would add indirection instead of reducing duplication. |
+| Keep High/Low and the numeric score hidden until authentication | This is a product requirement and prevents deriving the gated result from the browser payload. | The access rule is enforced by the API rather than by hiding already-delivered UI data. | Anonymous users must complete an additional account step before receiving any result. |
+
+Alternatives such as a global client state library, a monorepo orchestrator, and
+a server-side anonymous session were considered unnecessary for this scope. They
+would be reasonable when the funnel grows across more pages, teams, or devices.
+
 ## Prerequisites
 
 - Node.js 24+
