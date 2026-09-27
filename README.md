@@ -23,7 +23,6 @@ the test task.
 
 | Decision | Why it was chosen | Advantages | Trade-offs |
 | --- | --- | --- | --- |
-| Keep frontend and backend in separate repositories | The task requires independently runnable client and server applications. | Clear ownership, independent deployment and dependency graphs, and no framework coupling through a monorepo tool. | Cross-application changes require coordinating two repositories, and the full E2E runner expects them in sibling directories. |
 | Fetch the quiz in the `/test` Server Component and pass it to the interactive `TestView` | The question set is server-owned, but answering and navigation require browser state. | The first render already contains quiz data, while the client boundary stays focused on interaction. | `TestView` still needs client-side JavaScript, and SSR does not remove the need to handle API failures. |
 | Use separate routes for landing, quiz, authentication, and report | These are distinct funnel states with different access rules and layouts. | URLs are refreshable and understandable, and every step can evolve independently. | State that crosses routes must be persisted explicitly instead of remaining in one component tree. |
 | Store the quiz draft in `localStorage` | An accidental refresh should not erase answers to a public quiz. | Simple recovery without creating an anonymous server session for every visitor. | The draft is device- and browser-specific, can become stale, and must never contain trusted scoring data. |
