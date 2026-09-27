@@ -3,11 +3,10 @@ import type {
   CompleteAttemptResponse,
   CurrentQuiz,
 } from "./quiz.types";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+import { getApiUrl } from "@/lib/api-url";
 
 export async function getCurrentQuiz(signal?: AbortSignal): Promise<CurrentQuiz> {
-  const response = await fetch(`${apiUrl}/quiz/current`, {
+  const response = await fetch(`${getApiUrl()}/quiz/current`, {
     cache: "no-store",
     credentials: "include",
     signal,
@@ -24,7 +23,7 @@ export async function completeAttempt(
   input: CompleteAttemptInput,
   idempotencyKey: string,
 ): Promise<CompleteAttemptResponse> {
-  const response = await fetch(`${apiUrl}/attempts/complete`, {
+  const response = await fetch(`${getApiUrl()}/attempts/complete`, {
     method: "POST",
     credentials: "include",
     headers: {

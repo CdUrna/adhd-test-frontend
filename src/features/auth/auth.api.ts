@@ -1,12 +1,11 @@
 import type { AuthInput, AuthMode, AuthResponse } from "./auth.types";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+import { getApiUrl } from "@/lib/api-url";
 
 export async function authenticate(
   mode: AuthMode,
   input: AuthInput,
 ): Promise<AuthResponse> {
-  const response = await fetch(`${apiUrl}/auth/${mode}`, {
+  const response = await fetch(`${getApiUrl()}/auth/${mode}`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -30,7 +29,7 @@ export async function authenticate(
 }
 
 export async function getCurrentUser(): Promise<AuthResponse["user"] | null> {
-  const response = await fetch(`${apiUrl}/auth/me`, {
+  const response = await fetch(`${getApiUrl()}/auth/me`, {
     credentials: "include",
   });
 

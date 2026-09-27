@@ -72,6 +72,10 @@ The frontend is available at `http://localhost:3000` and expects the API at the
 URL configured through `NEXT_PUBLIC_API_URL`. The default backend URL is
 `http://localhost:4000/api/v1`.
 
+For a split production deployment, set `API_URL` to the absolute backend API
+URL and `NEXT_PUBLIC_API_URL=/api/v1`. Next.js then proxies browser requests to
+the backend, keeping the authentication cookie first-party.
+
 ## Quality checks
 
 Install the Playwright-managed browser once:

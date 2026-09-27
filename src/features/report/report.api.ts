@@ -1,9 +1,8 @@
 import type { CurrentReport } from "./report.types";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+import { getApiUrl } from "@/lib/api-url";
 
 export async function getCurrentReport(): Promise<CurrentReport> {
-  const response = await fetch(`${apiUrl}/reports/current`, {
+  const response = await fetch(`${getApiUrl()}/reports/current`, {
     credentials: "include",
   });
 
@@ -19,7 +18,7 @@ export async function getCurrentReport(): Promise<CurrentReport> {
 }
 
 export async function logout(): Promise<void> {
-  const response = await fetch(`${apiUrl}/auth/logout`, {
+  const response = await fetch(`${getApiUrl()}/auth/logout`, {
     method: "POST",
     credentials: "include",
   });
