@@ -2,6 +2,19 @@
 
 Independent Next.js application for the ADHD test funnel.
 
+Backend repository: [CdUrna/adhd-test-backend](https://github.com/CdUrna/adhd-test-backend)
+
+## Solution overview
+
+The solution is split into two independent applications:
+
+- this Next.js frontend renders the public quiz, authentication screens, and
+  protected report;
+- the NestJS backend owns authentication, scoring, quiz versions, attempts, and
+  report snapshots in PostgreSQL.
+
+The applications communicate over a versioned REST API under `/api/v1`.
+
 ## Local setup
 
 1. Copy `.env.example` to `.env.local`.
