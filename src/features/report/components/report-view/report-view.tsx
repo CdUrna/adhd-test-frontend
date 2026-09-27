@@ -11,6 +11,7 @@ import { getCurrentReport, logout } from "../../report.api";
 import { CognitiveStrengthsSection } from "../cognitive-strengths-section";
 import { EmotionalRegulationSection } from "../emotional-regulation-section";
 import { FaqSection } from "../faq-section";
+import { ReportDisclaimer } from "../report-disclaimer";
 import { ScoreGauge } from "../score-gauge";
 import { UnderstandingScoreSection } from "../understanding-score-section";
 import styles from "./report-view.module.css";
@@ -69,7 +70,11 @@ export function ReportView({ onRetake, onSignedOut }: ReportViewProps) {
         <SurfaceCard className={styles.card} role="alert">
           <h1>We could not open your report</h1>
           <p>{error}</p>
-          <Button type="button" className={styles.primaryAction} onClick={onSignedOut}>
+          <Button
+            type="button"
+            className={styles.primaryAction}
+            onClick={onSignedOut}
+          >
             Return to start
           </Button>
         </SurfaceCard>
@@ -86,9 +91,15 @@ export function ReportView({ onRetake, onSignedOut }: ReportViewProps) {
   }
 
   const resultLabel =
-    report.resultType === "HIGH_ADHD_TRAITS" ? "High ADHD Traits" : "Low ADHD Traits";
-  const scoreExplanation = report.sections.find((section) => section.key === "understanding-score");
-  const cognitiveStrengths = report.sections.find((section) => section.key === "cognitive-strengths");
+    report.resultType === "HIGH_ADHD_TRAITS"
+      ? "High ADHD Traits"
+      : "Low ADHD Traits";
+  const scoreExplanation = report.sections.find(
+    (section) => section.key === "understanding-score",
+  );
+  const cognitiveStrengths = report.sections.find(
+    (section) => section.key === "cognitive-strengths",
+  );
   const emotionalRegulation = report.sections.find(
     (section) => section.key === "emotional-regulation",
   );
@@ -131,16 +142,22 @@ export function ReportView({ onRetake, onSignedOut }: ReportViewProps) {
 
       <div className={styles.content}>
         <p className={styles.reportSummary}>
-          Your full assessment results include IQ score, cognitive strengths profile, worldwide
-          percentile rankings, and an in-depth breakdown of performance.
+          Your full assessment results include IQ score, cognitive strengths
+          profile, worldwide percentile rankings, and an in-depth breakdown of
+          performance.
         </p>
 
-        {scoreExplanation ? <UnderstandingScoreSection section={scoreExplanation} /> : null}
-        {cognitiveStrengths ? <CognitiveStrengthsSection section={cognitiveStrengths} /> : null}
+        {scoreExplanation ? (
+          <UnderstandingScoreSection section={scoreExplanation} />
+        ) : null}
+        {cognitiveStrengths ? (
+          <CognitiveStrengthsSection section={cognitiveStrengths} />
+        ) : null}
         {emotionalRegulation ? (
           <EmotionalRegulationSection section={emotionalRegulation} />
         ) : null}
         <FaqSection items={report.faq} />
+        <ReportDisclaimer>{report.disclaimer}</ReportDisclaimer>
 
         {error ? <p className={styles.formError}>{error}</p> : null}
       </div>

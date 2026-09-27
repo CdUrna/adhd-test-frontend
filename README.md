@@ -121,6 +121,7 @@ dependencies installed, but it does not need to be built or started beforehand.
 - Protected High/Low report with score gauge, report sections, FAQ, medical
   disclaimer, and sign out.
 - Authenticated retake flow that creates a new attempt without another login.
+- Dedicated quiz error boundary with retry and return-to-start recovery.
 
 ## Source structure
 

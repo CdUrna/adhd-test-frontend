@@ -1,0 +1,21 @@
+.disclaimer {
+  padding: 20px 24px;
+  border-left: 3px solid #93c5de;
+  background: #f4f8fa;
+  color: var(--muted);
+}
+
+.disclaimer p {
+  margin: 0;
+  font: var(--type-desktop-body-16);
+}
+
+@media (max-width: 650px) {
+  .disclaimer {
+    padding: 16px;
+  }
+
+  .disclaimer p {
+    font: var(--type-mobile-body-small-regular);
+  }
+}
