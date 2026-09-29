@@ -1,0 +1,29 @@
+.answerList {
+  display: grid;
+  gap: 8px;
+}
+
+.answerOption {
+  width: 100%;
+  min-height: 58px;
+  padding: 12px 18px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: var(--option);
+  color: var(--text);
+  font: var(--type-desktop-body-16);
+  cursor: pointer;
+  text-align: left;
+}
+
+.answerOption:hover { border-color: #acd7eb; }
+
+.selected {
+  border-color: #75bce0;
+  background: var(--selected);
+  box-shadow: 0 0 0 2px rgb(117 188 224 / 15%);
+}
+
+@media (max-width: 600px) {
+  .answerOption { min-height: 54px; }
+}

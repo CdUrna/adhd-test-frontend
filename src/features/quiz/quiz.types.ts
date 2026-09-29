@@ -5,7 +5,7 @@ export type QuizOption = {
   label: string;
 };
 
-export type QuizQuestion = {
+export type SingleChoiceQuestion = {
   id: string;
   key: string;
   type: "SINGLE_CHOICE";
@@ -13,6 +13,8 @@ export type QuizQuestion = {
   position: number;
   options: QuizOption[];
 };
+
+export type QuizQuestion = SingleChoiceQuestion;
 
 export type CurrentQuiz = {
   id: string;

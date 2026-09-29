@@ -132,14 +132,6 @@ test("primary quiz controls work with a keyboard and expose visible focus", asyn
   await page.keyboard.press("Tab");
   await expect(firstAnswer).toBeFocused();
   await page.keyboard.press("Space");
-  await expect(firstAnswer).toHaveAttribute("aria-checked", "true");
-
-  for (let index = 0; index < 5; index += 1) {
-    await page.keyboard.press("Tab");
-  }
-  const nextButton = page.getByRole("button", { name: "Next question" });
-  await expect(nextButton).toBeFocused();
-  await page.keyboard.press("Enter");
   await expect(page.getByText("2/5")).toBeVisible();
 });
 
@@ -160,9 +152,11 @@ test("pages reflow without horizontal scrolling at a 200 percent zoom equivalent
 async function answerAll(page: Page, answer: string) {
   for (let index = 0; index < 5; index += 1) {
     await page.getByRole("radio", { name: answer, exact: true }).click();
-    const buttonName = index === 4 ? "Finish test" : "Next question";
-    await page.getByRole("button", { name: buttonName }).click();
+    if (index < 4) {
+      await expect(page.getByText(`${index + 2}/5`)).toBeVisible();
+    }
   }
+  await page.getByRole("button", { name: "Finish test" }).click();
 }
 
 async function capture(page: Page, name: string, fullPage = false) {

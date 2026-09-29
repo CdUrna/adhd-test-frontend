@@ -27,7 +27,8 @@ the test task.
 
 | Decision | Why it was chosen | Advantages | Trade-offs |
 | --- | --- | --- | --- |
-| Fetch the quiz in the `/test` Server Component and pass it to the interactive `TestView` | The question set is server-owned, but answering and navigation require browser state. | The first render already contains quiz data, while the client boundary stays focused on interaction. | `TestView` still needs client-side JavaScript, and SSR does not remove the need to handle API failures. |
+| Fetch the quiz in the `/test` Server Component and pass it to an interactive view backed by `useQuizAttempt` | The question set is server-owned, but answering, persistence, and navigation require browser state. | The first render already contains quiz data; orchestration is testable and separate from presentation. | The quiz still needs client-side JavaScript, and SSR does not remove the need to handle API failures. |
+| Dispatch question UI by its discriminated `type` | Future quiz versions may introduce controls other than single choice. | Each question type owns its markup and accessibility behavior without growing the page component. | Every new backend question type requires a matching frontend renderer before it can be published safely. |
 | Use separate routes for landing, quiz, authentication, and report | These are distinct funnel states with different access rules and layouts. | URLs are refreshable and understandable, and every step can evolve independently. | State that crosses routes must be persisted explicitly instead of remaining in one component tree. |
 | Store the quiz draft in `localStorage` | An accidental refresh should not erase answers to a public quiz. | Simple recovery without creating an anonymous server session for every visitor. | The draft is device- and browser-specific, can become stale, and must never contain trusted scoring data. |
 | Persist one UUID idempotency key with the draft while completion is pending | The backend may commit an attempt even if the browser loses the response and retries. | A retry after a network error or refresh receives the original attempt instead of creating a duplicate. Changing an answer clears the key, and a deliberate retake generates a new one. | The browser must manage the key lifecycle correctly, and the mechanism still depends on backend validation of the payload and authentication context. |
@@ -118,6 +119,8 @@ dependencies installed, but it does not need to be built or started beforehand.
 - Required Male/Female selection.
 - Quiz loading from `GET /quiz/current`.
 - Five-question navigation with required answers.
+- Automatic progression after selecting an answer, with an explicit final
+  submission action on the last question.
 - Draft gender and answers persisted in browser storage.
 - Completion idempotency key persisted until the backend confirms the attempt.
 - Anonymous attempt completion through the backend.
@@ -143,7 +146,14 @@ dependencies installed, but it does not need to be built or started beforehand.
   `.tsx`, `.types.ts`, and `.module.css` files.
 - Feature-level API clients and domain types remain at the feature root because
   they are shared by multiple components.
-- Browser-only feature helpers live in the feature's `utils` directory.
+- Quiz workflow state and completion live in `useQuizAttempt`; browser storage
+  is isolated in `quiz-draft.storage.ts`, while `TestView` only renders state and
+  delegates user actions.
+- Question-specific UI lives behind `QuestionRenderer`, making the question
+  `type` the extension point for future input controls.
+- Failed API requests use `ApiError`, preserving the HTTP status, backend code,
+  response body, and user-facing message for callers.
+- Browser-only feature helpers live beside the feature responsibility they own.
 - `src/app/globals.css` contains only theme tokens, document reset, and truly
   application-wide interaction defaults.
 - Feature CSS modules contain only styles that are specific to that feature's

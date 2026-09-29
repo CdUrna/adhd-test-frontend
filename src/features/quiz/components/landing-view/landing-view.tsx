@@ -9,6 +9,7 @@ import { PageShell } from "@/components/page-shell";
 import { ResponsiveProfileImage } from "@/components/responsive-profile-image";
 import { SurfaceCard } from "@/components/surface-card";
 import { getCurrentUser } from "../../../auth/auth.api";
+import { initializeQuizDraft } from "../../quiz-draft.storage";
 import styles from "./landing-view.module.css";
 import type { LandingViewProps } from "./landing-view.types";
 import type { Gender } from "../../quiz.types";
@@ -41,10 +42,7 @@ export function LandingView({ skipSessionRedirect }: LandingViewProps) {
   }, [router, skipSessionRedirect]);
 
   function start(gender: Gender): void {
-    window.localStorage.setItem(
-      "adhd-quiz-draft",
-      JSON.stringify({ gender, answers: {} }),
-    );
+    initializeQuizDraft(gender);
     router.push("/test");
   }
 

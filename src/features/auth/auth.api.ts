@@ -1,5 +1,6 @@
 import type { AuthInput, AuthMode, AuthResponse } from "./auth.types";
 import { getApiUrl } from "@/lib/api-url";
+import { toApiError } from "@/lib/api-error";
 
 export async function authenticate(
   mode: AuthMode,
@@ -15,14 +16,10 @@ export async function authenticate(
   });
 
   if (!response.ok) {
-    const errorBody = (await response.json().catch(() => null)) as {
-      message?: string | string[];
-    } | null;
-    const message = Array.isArray(errorBody?.message)
-      ? errorBody.message[0]
-      : errorBody?.message;
-
-    throw new Error(message ?? "Authentication failed. Please try again.");
+    throw await toApiError(
+      response,
+      "Authentication failed. Please try again.",
+    );
   }
 
   return (await response.json()) as AuthResponse;
